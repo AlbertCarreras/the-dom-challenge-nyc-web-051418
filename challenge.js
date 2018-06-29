@@ -13,22 +13,26 @@ let commentList = document.getElementsByClassName('comments')[0];
 let ctr = 0 // object as counter
 let go = true; // object to store timer activation status
 function timer() { //starts timer immediately
-  plus.addEventListener('click', () => ctr++ ); //increments up on + click
-  minus.addEventListener('click', () => ctr-- );//increments down on - click
+  plus.addEventListener('click', () => {
+    counter.innerHTML = ++ctr;
+  } ); //increments up on + click
+  minus.addEventListener('click', () => {
+    counter.innerHTML = --ctr;
+  } ); //increments down on - click
   setInterval( () => {
     if (go) { //pauses the counter when pause btn is clicked ang go turns false
-      counter.innerHTML = ctr++; //increments each second
+      counter.innerHTML = ++ctr; //increments each second
     }}, 1000);
 };
 timer();
 
 let likesObj = {} //object for storing likes
 like.addEventListener('click', () => {
-  likesObj[ctr] ? likesObj[ctr]++ : likesObj[ctr] = 1; //starts at one or increments if exists
-  if (!document.getElementById(`${ctr}`)) {
-    likeList.innerHTML += `<li id=${ctr}>${ctr} has been liked times ${likesObj[ctr]}</li>`;
-  } else {
+  likesObj[ctr] ? ++likesObj[ctr] : likesObj[ctr] = 1; //starts at one or increments if exists
+  if (document.getElementById(`${ctr}`)) { //it checks if there's already an element with the id ctr, if so just updates the innerHTML
     document.getElementById(ctr).innerHTML = `${ctr} has been liked times ${likesObj[ctr]}`;
+  } else { //it checks if there's already an element with the id ctr, if it doesn't appends a new object to likeList
+    likeList.innerHTML += `<li id=${ctr}>${ctr} has been liked times ${likesObj[ctr]}</li>`;
   }
 })
 
@@ -50,5 +54,5 @@ pause.addEventListener('click', () => { //pauses buttons
 
 submit.addEventListener('click', (e) => {
   e.preventDefault();
-  commentList.innerHTML += `<li>${commentForm.value}</li>`;
+  commentList.innerHTML += `<li>${commentForm.value}, on second ${ctr}</li>`;
 });
